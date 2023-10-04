@@ -1,0 +1,352 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { projects } from "../../data/projects";
+
+const { id } = Astro.params;
+
+const indice = Number(id);
+
+const { title, description, technologies, date, links, images } =
+  projects[indice];
+
+export const getStaticPaths = () => {
+  return [
+    { params: { id: 0 } },
+    { params: { id: 1 } },
+    { params: { id: 2 } },
+    { params: { id: 3 } },
+    { params: { id: 4 } },
+  ];
+};
+---
+
+<Layout title={title}>
+  <div class="container">
+    <div class="container-description">
+      <div>
+        <h1 class="title">{title}</h1>
+        <p class="description">{description[0]}</p>
+      </div>
+      <div>
+        <h2 class="subtitle">Technology:</h2>
+        <div class="technologies">
+          {
+            technologies.map((technology: string) => (
+              <>
+                <img class="technology" src={`/img/${technology}.svg`} alt="" />
+              </>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="subtitle">Date:</h2>
+        <p class="date">{date}</p>
+      </div>
+      <div>
+        <h2 class="subtitle">Links:</h2>
+        <div class="buttons">
+          {
+            links.map((link: any) => (
+              <button>
+                {link.name}
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="#505050"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M12 16l4 -4l-4 -4" />
+                  <path d="M8 12h8" />
+                  <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
+                </svg>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div class="container-image">
+      <div class="item-image-one">
+        <img class="img-1" src={images[0]} />
+      </div>
+      <div class="item-text-one">
+        <p>
+          {description[1]}
+        </p>
+      </div>
+      <div class="item-image-two"><img class="img-2" src={images[1]} /></div>
+      <div class="item-text-two">
+        <p>
+          {description[2]}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="footer" slot="footer">
+    <a
+      href={`/projects/${Number(id) - 1}`}
+      class={Number(id) <= 0 ? "disabled" : ""}
+    >
+      -
+    </a>
+    <a
+      href={`/projects/${Number(id) + 1}`}
+      class={Number(id) >= 4 ? "disabled" : ""}
+    >
+      +
+    </a>
+  </div>
+</Layout>
+
+<style>
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  a {
+    margin-top: 10px;
+    color: #505050;
+    font-family: Heming;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    border: 2px solid #505050;
+    padding: 4px 14px;
+    border-radius: 30px;
+  }
+  .container {
+    margin: 0 auto;
+    display: flex;
+    margin-top: 5%;
+  }
+  .container-description {
+    height: 90%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  .title {
+    font-size: 40px;
+    font-weight: 500;
+    color: #505050;
+    font-family: Heming;
+  }
+  .description {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #505050;
+    font-family: Heming;
+  }
+  .date {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #505050;
+    font-family: Heming;
+  }
+  .subtitle {
+    font-size: 24px;
+    font-weight: 500;
+    color: #505050;
+    font-family: Heming;
+  }
+  .technology {
+    height: 35px;
+    width: 35px;
+  }
+  .technologies {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .footer {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  button {
+    margin-top: 10px;
+    color: #505050;
+    font-family: Heming;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    border: 2px solid #505050;
+    padding: 4px 14px;
+    border-radius: 30px;
+  }
+  .item-text-one {
+    grid-area: text-one;
+  }
+  .item-image-one {
+    grid-area: image-one;
+  }
+  .item-text-two {
+    grid-area: text-two;
+  }
+  .item-image-two {
+    grid-area: image-two;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container-image {
+    align-items: center;
+    font-family: Heming;
+    font-size: 18px;
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "image-one image-one image-one text-one text-one"
+      "text-two text-two image-two image-two image-two ";
+    gap: 20px;
+  }
+  .img-2 {
+    width: 90%;
+    height: 90%;
+    border-radius: 20px;
+    transform: perspective(800px) rotateY(-25deg) scale(0.8) rotateX(10deg);
+    transition: all 1s;
+  }
+  .img-2:hover {
+    transform: perspective(1400px) rotateY(20deg) translateY(-50px)
+      rotateX(10deg) scale(1);
+  }
+  .img-1 {
+    width: 90%;
+    height: 90%;
+    border-radius: 20px;
+    transform: perspective(800px) rotateY(25deg) scale(0.8) rotateX(10deg);
+    transition: all 1s;
+  }
+  .img-1:hover {
+    transform: perspective(800px) rotateY(-15deg) translateY(-50px)
+      rotateX(10deg) scale(1);
+  }
+
+  @media (max-width: 1366px) {
+    .container {
+      padding: 0 3%;
+      display: flex;
+      margin-top: 5%;
+    }
+    .container-image {
+      padding: 20px;
+      gap: 10px;
+    }
+    .img-2 {
+      width: 80%;
+      height: 80%;
+    }
+    .img-1 {
+      width: 80%;
+      height: 80%;
+    }
+    p {
+      font-size: 14px;
+    }
+    button {
+      margin-top: 10px;
+      font-size: 14px;
+      padding: 4px 6px;
+    }
+    .date {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .subtitle {
+      font-size: 20px;
+    }
+    .technology {
+      height: 35px;
+      width: 35px;
+    }
+    .description {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 1080px) {
+    .container {
+      padding: 0 2%;
+      margin-top: 0%;
+    }
+  }
+  @media (max-width: 845px) {
+    .container {
+      padding: 0 0%;
+      margin-top: 0%;
+    }
+    .container-image {
+      padding: 20px;
+      gap: 10px;
+    }
+    .img-2 {
+      width: 80%;
+      height: 80%;
+    }
+    .img-1 {
+      width: 80%;
+      height: 80%;
+    }
+    button {
+      margin-top: 10px;
+      color: #505050;
+      font-family: Heming;
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+      border: 2px solid #505050;
+      padding: 4px 14px;
+      border-radius: 30px;
+    }
+    .title {
+      font-size: 26px;
+    }
+    p {
+      font-size: 12px;
+    }
+    .description {
+      font-size: 12px;
+    }
+    .date {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #505050;
+      font-family: Heming;
+    }
+    .subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: #505050;
+      font-family: Heming;
+    }
+    .technology {
+      height: 35px;
+      width: 35px;
+    }
+  }
+  @media (max-width: 620px) {
+  }
+  @media (max-width: 450px) {
+  }
+  @media (max-width: 400px) {
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import Header from "../components/Header.astro";
+import { ViewTransitions } from "astro:transitions";
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <div class="contenedor">
+      <Header />
+      <main>
+        <slot />
+      </main>
+      <slot name="footer" />
+    </div>
+    <style is:global>
+      @font-face {
+        font-family: "Heming";
+        src: url(/fonts/HemingVariable.ttf);
+      }
+      @font-face {
+        font-family: "Crony";
+        src: url(/fonts/Crony.ttf);
+      }
+      @font-face {
+        font-family: "Monitor";
+        src: url(/fonts/Monitor.ttf);
+      }
+      html {
+        font-family: system-ui, sans-serif;
+        background-color: white; /*#020a13 */
+        background-size: 224px;
+      }
+      .contenedor {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      body {
+        height: 100vh;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        position: fixed;
+        z-index: -1;
+        background:
+          linear-gradient(rgba(165, 164, 164, 0.1) 1px, transparent 1px) 0% 0% /
+            104px 100px,
+          linear-gradient(
+              to right,
+              rgba(165, 164, 164, 0.1) 1px,
+              transparent 1px
+            )
+            transparent 0% 0% / 104px 100px;
+
+        transition: all 0.5s linear 0s;
+      }
+      body::after {
+        background-image: radial-gradient(
+            at 40% 40%,
+            rgb(30, 144, 255) 0px,
+            transparent 50%
+          ),
+          radial-gradient(at 90% 10%, rgb(255, 105, 180) 0px, transparent 50%),
+          radial-gradient(at 50% 95%, rgb(155, 41, 243) 0px, transparent 50%),
+          radial-gradient(at 20% 30%, rgb(163, 126, 248) 0px, transparent 50%),
+          radial-gradient(at 90% 90%, rgb(115, 25, 188) 0px, transparent 50%),
+          radial-gradient(at 33% 50%, rgb(255, 69, 0) 0px, transparent 50%),
+          radial-gradient(at 79% 53%, rgb(128, 0, 128) 0px, transparent 50%);
+        position: fixed;
+        content: "";
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        filter: blur(100px) saturate(100%);
+        top: 0px;
+        opacity: 0.1;
+        transform: translateZ(0px);
+      }
+      main {
+        height: 74%;
+        width: 100%;
+      }
+      @media (max-width: 450px) {
+        main {
+          height: 80%;
+        }
+      }
+      @media (max-width: 350px) {
+        main {
+          height: 60%;
+        }
+      }
+    </style>
+  </body>
+</html>
